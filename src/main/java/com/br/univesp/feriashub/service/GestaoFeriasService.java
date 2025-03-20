@@ -14,9 +14,9 @@ import java.util.Optional;
 @Service
 public class GestaoFeriasService {
 
-    @Autowired
+
     private FeriasRepository feriasRepository;
-    @Autowired
+
     private FuncionarioRepository funcionarioRepository;
 
     public Ferias solicitarFerias(Long funcionarioId, LocalDate dataInicio, LocalDate dataFim) {
