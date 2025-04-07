@@ -1,0 +1,24 @@
+:root {
+  --color-background: #ebfbee;
+  --color-primary: #40c057;
+  --color-secondary: #69db7c;
+  --color-text-primary: #fff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+html {
+  position: relative;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--color-background);
+}
