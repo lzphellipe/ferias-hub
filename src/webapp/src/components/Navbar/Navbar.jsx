@@ -12,11 +12,11 @@ export default function Navbar() {
     <header className={styles.header}>
       <nav className="navbar navbar-dark">
         <div className="container-fluid col justify-content-start">
-          <button type="button" className="btn border-0 shadow-none">
+          {/* <button type="button" className="btn border-0 shadow-none">
             {hamburger}
-          </button>
-          <Link to={"/dashboard"} className="navbar-brand h2 mb-0">
-            Sistema de RH
+          </button> */}
+          <Link to={"/dashboard"} className="navbar-brand h2 mb-0 ms-2">
+            Férias Hub
           </Link>
         </div>
         <div
