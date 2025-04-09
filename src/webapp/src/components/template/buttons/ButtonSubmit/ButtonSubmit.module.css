@@ -1,0 +1,21 @@
+.submit button {
+  width: 100px;
+  height: 35px;
+
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+
+  color: var(--color-text-primary);
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+
+  transition: 0.3s;
+}
+
+.submit button:hover,
+.submit:active {
+  color: var(--color-secondary);
+  background-color: transparent;
+  border-color: var(--color-secondary);
+}

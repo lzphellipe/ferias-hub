@@ -1,0 +1,50 @@
+.card {
+  gap: 100px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.circle {
+  width: 160px;
+  height: 160px;
+  border: 8px solid black;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.number {
+  font-size: 56px;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1;
+}
+
+.label {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+  /* margin-top: -4px; */
+}
+
+.button {
+  padding: 16px 24px;
+  background-color: #69db7c;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 220px;
+  font-size: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #57c96b;
+}
