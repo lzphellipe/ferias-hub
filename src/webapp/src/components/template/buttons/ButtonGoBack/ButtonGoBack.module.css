@@ -1,0 +1,19 @@
+.comeback button {
+  width: 100px;
+  height: 35px;
+
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+
+  color: var(--color-secondary);
+  border-color: var(--color-secondary);
+
+  transition: 0.3s;
+}
+
+.comeback button:hover,
+.comeback button:active {
+  background-color: var(--color-secondary);
+  color: var(--color-text-primary);
+}
