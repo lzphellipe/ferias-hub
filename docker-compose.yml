@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    ports:
+      - "8080:8080"
+    command: start-dev
+    networks:
+      - ferias-network
+
+  ferias-hub:
+    build: .
+    ports:
+      - "8081:8081"
+    depends_on:
+      - keycloak
+    networks:
+      - ferias-network
+
+networks:
+  ferias-network:
+    driver: bridge
