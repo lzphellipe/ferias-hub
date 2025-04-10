@@ -1,5 +1,6 @@
 package com.br.univesp.feriashub.model;
 
+import com.br.univesp.feriashub.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,22 +8,30 @@ import java.time.LocalDate;
 
 
 @Entity
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
+@Table(name = "ferias")
+@Data
 public class Ferias {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    private LocalDate dataInicio;
-    private LocalDate dataFim;
-    private String status;
+    @Column(name = "dt_inicio")
+    private LocalDate dtInicio;
 
-    @ManyToOne
-    @JoinColumn(name = "funcionario_id")
-    private Funcionario funcionario;
+    @Column(name = "dt_fim")
+    private LocalDate dtFim;
+
+    @Column(length = 255)
+    private String motivo;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "operador_id")
+    private Operador operador;
+
+    private Integer responsavel;
 }
+

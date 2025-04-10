@@ -12,7 +12,7 @@ services:
       - ferias-network
 
   ferias-hub:
-    build: .
+    image: ferias-hub:latest
     ports:
       - "8081:8081"
     depends_on:
