@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### FRONT END ###
+/src/webapp/node_modules/

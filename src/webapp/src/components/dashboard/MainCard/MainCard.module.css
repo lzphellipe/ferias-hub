@@ -17,6 +17,23 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transition: border-color 0.3s ease;
+}
+
+.urgente {
+  border-color: red;
+}
+
+.atencao {
+  border-color: orange;
+}
+
+.ok {
+  border-color: green;
+}
+
+.verificar {
+  border-color: gray;
 }
 
 .number {
@@ -30,21 +47,4 @@
   font-size: 20px;
   font-weight: bold;
   margin: 0;
-  /* margin-top: -4px; */
-}
-
-.button {
-  padding: 16px 24px;
-  background-color: #69db7c;
-  border: none;
-  border-radius: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  width: 220px;
-  font-size: 20px;
-  transition: background-color 0.3s ease;
-}
-
-.button:hover {
-  background-color: #57c96b;
 }

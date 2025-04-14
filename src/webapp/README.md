@@ -1,12 +1,46 @@
-# React + Vite
+# Sistema de Férias - Front End
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este projeto é o front end de um sistema de férias desenvolvido para o RH gerenciar as férias dos funcionários. A aplicação foi criada utilizando React e Vite para uma experiência de desenvolvimento rápida e moderna, além de contar com diversas ferramentas para melhorar a produtividade e a qualidade do código.
 
-Currently, two official plugins are available:
+## Recursos Utilizados
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React** – Biblioteca para construção de interfaces de usuário.
+- **Vite** – Ferramenta de bundling e desenvolvimento com Hot Module Replacement (HMR) para uma experiência ágil.
+- **ESLint** – Ferramenta de linting para JavaScript, com suporte para:
+  - Regras recomendadas do ESLint.
+  - Regras específicas para React Hooks (através de `eslint-plugin-react-hooks`).
+  - Verificação de Fast Refresh com `eslint-plugin-react-refresh`.
+- **Axios** – Biblioteca para requisições HTTP, utilizada na comunicação com a API.
+- **Outros** – Suporte à importação e modularização dos serviços, como a gestão de dados de histórico de férias.
 
-## Expanding the ESLint configuration
+## Estrutura do Projeto
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **src** – Contém o código fonte da aplicação.
+  - **utils** – Configuração da API usando Axios.
+  - **components/template/tables/HistoryTable** – Componente e serviços para exibição de histórico de férias.
+- **vite.config.js** – Configuração do Vite com suporte para React.
+- **eslint.config.js** – Configuração do ESLint para garantir a qualidade do código.
+
+## Comandos de Inicialização
+
+Siga os passos abaixo para inicializar o projeto:
+
+```bash
+yarn install
+```
+
+```bash
+yarn dev
+```
+
+Para construir a versão de produção:
+
+```bash
+yarn build
+```
+
+E para visualizar a versão gerada localmente:
+
+```bash
+yarn preview
+```
