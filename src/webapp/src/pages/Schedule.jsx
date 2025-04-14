@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ButtonGoBack from "../components/template/buttons/ButtonGoBack/ButtonGoBack";
 import ButtonSubmit from "../components/template/buttons/ButtonSubmit/ButtonSubmit";
 import Form from "../components/template/forms/Form/Form";
@@ -7,63 +7,74 @@ import Container from "../components/template/structures/Container/Container";
 import Footer from "../components/template/structures/Footer/Footer";
 import SectionHeader from "../components/template/structures/SectionHeader/SectionHeader";
 import SectionTitle from "../components/template/structures/SectionHeader/SectionTitle/SectionTitle";
+import ScheduleForm from "../components/schedule/Form";
+import Menu from "../components/Menu";
+import { useFerias } from "../hooks/useFerias";
+import { createVacation } from "../utils/api";
 
 export default function Schedule() {
+  const { statusFerias } = useFerias();
+
   const [dataInicio, setDataInicio] = useState("");
   const [quantidadeDias, setQuantidadeDias] = useState("");
   const [dataTermino, setDataTermino] = useState("");
+  const [error, setError] = useState("");
 
-  useEffect(() => {
-    if (dataInicio && quantidadeDias) {
-      const inicio = new Date(dataInicio);
-      inicio.setDate(inicio.getDate() + parseInt(quantidadeDias));
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-      const dia = String(inicio.getDate()).padStart(2, "0");
-      const mes = String(inicio.getMonth() + 1).padStart(2, "0");
-      const ano = inicio.getFullYear();
-
-      setDataTermino(`${dia}/${mes}/${ano}`);
-    } else {
-      setDataTermino("");
+    if (!dataInicio || !quantidadeDias) {
+      setError("Preencha todos os campos");
+      return;
     }
-  }, [dataInicio, quantidadeDias]);
+    if (quantidadeDias > statusFerias.diasRestantes) {
+      setError("Quantidade de dias indisponível");
+      return;
+    }
+    const data = {
+      dataInicio,
+      quantidadeDias,
+      dataTermino,
+    };
+
+    try {
+      createVacation(data);
+      alert("Férias encaminhada para avaliação");
+    } catch (error) {
+      console.error("Erro ao criar férias:", error);
+      setError("Erro ao agendar férias");
+    }
+  };
 
   return (
     <>
+      <Menu />
       <Container>
-        <SectionHeader>
-          <SectionTitle title="Agendamento de Férias" />
-        </SectionHeader>
-
-        <Form>
-          <div className="col-md-6 mb-4">
-            <p className="form-label fw-bold">Data de início:</p>
-            <Input
-              type="date"
-              value={dataInicio}
-              onchange={(e) => setDataInicio(e.target.value)}
-            />
-          </div>
-
-          <div className="col-md-6 mb-4">
-            <p className="form-label fw-bold">Data de término:</p>
-            <p className="justify-content-center">{dataTermino}</p>
-          </div>
-
-          <div className="col-md-6 mb-4">
-            <p className="form-label fw-bold">Quantidade de dias:</p>
-            <Input
-              type="number"
-              value={quantidadeDias}
-              onchange={(e) => setQuantidadeDias(e.target.value)}
-            />
-          </div>
-
-          <Footer>
+        <div className="container d-flex flex-column align-items-center">
+          <SectionHeader>
             <ButtonGoBack />
-            <ButtonSubmit text="Agendar" />
-          </Footer>
-        </Form>
+            <SectionTitle title="Agendamento de Férias" />
+          </SectionHeader>
+          <span className="border border-1 border-dark rounded-3 p-2">
+            Total de dias disponivel: {statusFerias.diasRestantes} dias
+          </span>
+        </div>
+        <hr />
+        <br />
+        <div>
+          <ScheduleForm
+            text="Agendar"
+            onSubmit={handleSubmit}
+            dataInicio={dataInicio}
+            setDataInicio={setDataInicio}
+            quantidadeDias={quantidadeDias}
+            setQuantidadeDias={setQuantidadeDias}
+            dataTermino={dataTermino}
+            setDataTermino={setDataTermino}
+            error={error}
+            qtdDiasDisponiveis={statusFerias.diasRestantes}
+          />
+        </div>
       </Container>
     </>
   );

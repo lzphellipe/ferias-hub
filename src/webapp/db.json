@@ -1,0 +1,80 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Pablo",
+      "email": "pablo@email.com",
+      "senha": "123",
+      "role": "1",
+      "dataAdmissao": "15/01/2023",
+      "ferias": [
+        {
+          "id": "1",
+          "dataInicio": "02/01/2024",
+          "dataFim": "26/01/2024",
+          "diasFerias": 25,
+          "situacao": "Efetivado"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "José",
+      "email": "jose@email.com",
+      "senha": "123456",
+      "role": "3",
+      "dataAdmissao": "01/06/2022",
+      "ferias": [
+        {
+          "id": "2",
+          "dataInicio": "09/08/2024",
+          "dataFim": "13/08/2024",
+          "diasFerias": 5,
+          "situacao": "Efetivado"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Mariana mmmm",
+      "email": "mariana@email.com",
+      "senha": "123",
+      "role": "2",
+      "dataAdmissao": "20/03/2025",
+      "ferias": []
+    },
+    {
+      "id": "4",
+      "name": "Carla",
+      "email": "carla@email.com",
+      "senha": "carla2024",
+      "role": "2",
+      "dataAdmissao": "10/09/2020",
+      "ferias": [
+        {
+          "id": "3",
+          "dataInicio": "01/07/2023",
+          "dataFim": "15/07/2023",
+          "diasFerias": 15,
+          "situacao": "Efetivado"
+        },
+        {
+          "id": "4",
+          "dataInicio": "10/12/2023",
+          "dataFim": "20/12/2023",
+          "diasFerias": 11,
+          "situacao": "Efetivado"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Carla",
+      "email": "carla@email.com",
+      "senha": "2025",
+      "role": "2",
+      "dataAdmissao": "01/01/2025",
+      "ferias": []
+    }
+  ]
+}
