@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import univesp.ferias_hub.model.usuario.ECargo;
+import univesp.ferias_hub.model.usuario.EStatus;
 import univesp.ferias_hub.validations.usuario.cpf.CPFValido;
 import univesp.ferias_hub.validations.usuario.senha.SenhaForte;
 
@@ -26,8 +27,11 @@ public record UsuarioUpdateDTO (
        @CPFValido(message = "CPF inválido")
        String cpf,
 
+       String telefone,
 
-       ECargo cargo
+
+       ECargo cargo,
+       EStatus status
        ){
 
 }

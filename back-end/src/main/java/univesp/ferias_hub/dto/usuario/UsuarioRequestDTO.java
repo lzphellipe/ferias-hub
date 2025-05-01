@@ -25,6 +25,8 @@ public record UsuarioRequestDTO(
         @CPFValido(message = "CPF inválido")
         String cpf,
 
+        String telefone,
+
         @NotBlank(message = "Cargo é obrigatorio")
         ECargo cargo,
 
