@@ -1,26 +1,37 @@
-import { createUser } from "../utils/api";
+import api from "../utils/api";
 import { useState } from "react";
 import FormUser from "../components/FormUser";
 import Menu from "../components/Menu";
 import Container from "../components/structures/Container";
+import { useNavigate } from "react-router-dom";
 
 const CreateUser = () => {
-  const [userData, setUserData] = useState({ nome: "", email: "", senha: "" });
+  const [userData, setUserData] = useState({
+    nome: "",
+    email: "",
+    senha: "",
+    cpf: "",
+    cargo: "",
+    dataAdmissao: "",
+  });
+  const [error, setError] = useState("");
 
-  const handleCreate = (e) => {
+  const navigate = useNavigate();
+
+  const handleCreate = async (e) => {
     e.preventDefault();
     try {
-      createUser(userData);
-      alert("Usuário criado com sucesso!");
+      await api.post("/user", userData);
+      navigate("/dashboard");
     } catch (error) {
-      console.error("Erro ao criar usuário:", error);
-      alert("Erro ao criar usuário. Por favor, tente novamente.");
+      setError(error.response.data.message);
     }
   };
   return (
     <>
       <Menu />
       <Container title="Cadastro de Usuário">
+        {error && <span className="text-danger">{error}</span>}
         <FormUser
           userData={userData}
           setUserData={setUserData}

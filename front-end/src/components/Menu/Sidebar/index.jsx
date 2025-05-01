@@ -7,7 +7,6 @@ const SideBar = ({ isOpen, onClose }) => {
   const offcanvasRef = useRef();
 
   const role = user.cargo;
-  console.log(role);
 
   return (
     <div
