@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import univesp.ferias_hub.domain.usuario.Usuario;
+import univesp.ferias_hub.model.usuario.EStatus;
 import univesp.ferias_hub.services.JwtService;
 import univesp.ferias_hub.services.UsuarioService;
 
@@ -24,6 +25,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
         Usuario usuario = usuarioService.buscarUsuarioPeloId(authRequest.getCod_usuario());
+
+        if(usuario.getStatus() == EStatus.DESATIVADO){
+            return ResponseEntity.status(401).body("Usuario não desativado");
+        }
 
         boolean senhaValida = jwtService.verificarSenha(authRequest.getSenha(), usuario.getSenha());
         if(senhaValida){

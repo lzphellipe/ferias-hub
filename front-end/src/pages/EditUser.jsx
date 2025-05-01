@@ -4,18 +4,20 @@ import Container from "../components/structures/Container";
 import Input from "../components/structures/forms/Input";
 
 import { useState } from "react";
-import { getUser, updateUser } from "../utils/api";
+import api from "../utils/api";
 
 const EditUser = () => {
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
   const [userData, setUserData] = useState(null);
+  const [error, setError] = useState("");
 
   const handleSearch = async () => {
-    const users = await getUser();
+    const response = await api.get("/user");
+    const users = response.data;
     const filtered = users.filter(
       (user) =>
-        user.name.toLowerCase().includes(search.toLowerCase()) ||
+        user.nome.toLowerCase().includes(search.toLowerCase()) ||
         String(user.id) === search
     );
     setResults(filtered);
@@ -27,18 +29,17 @@ const EditUser = () => {
     setSearch("");
   };
 
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
     if (!userData) {
       alert("Selecione um usuário para editar.");
       return;
     }
     try {
-      updateUser(userData.id, userData);
+      await api.patch(`/user/${userData.id}`, userData);
       alert("Usuário atualizado com sucesso!");
     } catch (error) {
-      console.error("Erro ao atualizar usuário:", error);
-      alert("Erro ao atualizar usuário. Por favor, tente novamente.");
+      setError(error.response.data.message);
     }
   };
 
@@ -53,7 +54,7 @@ const EditUser = () => {
               <Input
                 type="text"
                 value={search}
-                onchange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setSearch(e.target.value)}
               />
               <button
                 onClick={handleSearch}
@@ -72,7 +73,7 @@ const EditUser = () => {
                     style={{ cursor: "pointer" }}
                     onClick={() => handleSelectUser(user)}
                   >
-                    {user.id} - {user.name} ({user.email})
+                    {user.id} - {user.nome}
                   </li>
                 ))}
               </ul>
@@ -88,6 +89,7 @@ const EditUser = () => {
               onSubmit={handleUpdate}
               submitText="Atualizar"
             />
+            {error && <span className="text-danger">{error}</span>}
             <button
               onClick={() => setUserData(null)}
               className="btn btn-link mt-3"

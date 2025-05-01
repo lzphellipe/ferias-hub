@@ -13,6 +13,8 @@ import univesp.ferias_hub.model.usuario.EStatus;
 import univesp.ferias_hub.domain.usuario.Usuario;
 import univesp.ferias_hub.domain.usuario.exceptions.UsuarioNaoEncontradoException;
 import univesp.ferias_hub.repository.UserRepository;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +40,11 @@ public class UsuarioService {
                 .senha(criptografarSenha(usuarioRequestDTO.senha()))
                 .cargo(usuarioRequestDTO.cargo())
                 .cpf(usuarioRequestDTO.cpf())
+                .telefone(usuarioRequestDTO.telefone())
                 .dataAdmissao(usuarioRequestDTO.dataAdmissao())
+                .Status(EStatus.ATIVO)
+                .dataCadastro(LocalDate.now().atStartOfDay())
+                .dataAtualizacao(LocalDate.now().atStartOfDay())
                 .build();
 
 
@@ -48,8 +54,10 @@ public class UsuarioService {
                 usuario.getNome(),
                 usuario.getEmail(),
                 usuario.getCpf(),
+                usuario.getTelefone(),
                 usuario.getCargo(),
-                usuario.getDataAdmissao()
+                usuario.getDataAdmissao(),
+                usuario.getStatus()
         );
     }
 
@@ -61,8 +69,10 @@ public class UsuarioService {
                 usuario.getNome(),
                 usuario.getEmail(),
                 usuario.getCpf(),
+                usuario.getTelefone(),
                 usuario.getCargo(),
-                usuario.getDataAdmissao()
+                usuario.getDataAdmissao(),
+                usuario.getStatus()
         );
     }
 
@@ -92,6 +102,15 @@ public class UsuarioService {
         if(usuarioUpdateDTO.senha() != null){
             usuario.setSenha(criptografarSenha(usuarioUpdateDTO.senha()));
         }
+        if(usuarioUpdateDTO.status() != null){
+           usuario.setStatus(usuarioUpdateDTO.status());
+        }
+        if(usuarioUpdateDTO.telefone() != null){
+            usuario.setTelefone(usuarioUpdateDTO.telefone());
+        }
+
+        usuario.setDataAtualizacao(LocalDate.now().atStartOfDay());
+
         this.userRepository.save(usuario);
 
     }

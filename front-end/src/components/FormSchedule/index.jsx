@@ -1,72 +1,47 @@
-import { useEffect } from "react";
-import Input from "../structures/forms/Input";
 import ButtonSubmit from "../structures/forms/ButtonSubmit";
+import FieldScheduleForm from "./FieldScheduleForm";
 
-const ScheduleForm = ({
-  text,
+const FormSchedule = ({
+  scheduleData,
+  setScheduleData,
   onSubmit,
-  dataInicio,
-  setDataInicio,
-  quantidadeDias,
-  setQuantidadeDias,
-  dataTermino,
-  setDataTermino,
-  error,
-  qtdDiasDisponiveis,
+  submitText,
 }) => {
-  useEffect(() => {
-    if (dataInicio && quantidadeDias) {
-      const inicio = new Date(dataInicio);
-      inicio.setDate(inicio.getDate() + parseInt(quantidadeDias));
-
-      const dia = String(inicio.getDate()).padStart(2, "0");
-      const mes = String(inicio.getMonth() + 1).padStart(2, "0");
-      const ano = inicio.getFullYear();
-
-      setDataTermino(`${dia}/${mes}/${ano}`);
-    } else {
-      setDataTermino("");
-    }
-  }, [dataInicio, quantidadeDias]);
-
   return (
-    <>
-      <form onSubmit={onSubmit}>
-        <div className="row">
-          <div className="col-md-6 mb-4">
-            <label className="form-label fw-bold">Data de início:</label>
-            <Input
-              type="date"
-              value={dataInicio}
-              onchange={(e) => setDataInicio(e.target.value)}
-            />
-          </div>
-          <div className="col-md-6 mb-4">
-            <label className="form-label fw-bold">Quantidade de dias:</label>
-            <Input
-              type="number"
-              value={quantidadeDias}
-              onchange={(e) => setQuantidadeDias(e.target.value)}
-            />
-          </div>
-          <div className="col-md-6 mb-4 mb-4 ">
-            <label className="form-label fw-bold">Data de término:</label>
-            <p className="justify-content-center">{dataTermino}</p>
-          </div>
+    <form onSubmit={onSubmit}>
+      <div className="row">
+        <FieldScheduleForm
+          field="Data de início:"
+          type="date"
+          value={scheduleData.dt_inicio}
+          onChange={(e) =>
+            setScheduleData({ ...scheduleData, dt_inicio: e.target.value })
+          }
+        />
+        <FieldScheduleForm
+          field="Quantidade de dias:"
+          type="number"
+          value={scheduleData.qtd_dias}
+          onChange={(e) =>
+            setScheduleData({ ...scheduleData, qtd_dias: e.target.value })
+          }
+        />
+        <div className="col-md-6 mb-4 mb-4 ">
+          <label className="form-label fw-bold">Data de término:</label>
+          <p className="justify-content-center">{scheduleData.dt_fim}</p>
         </div>
-        <div>
-          {qtdDiasDisponiveis < quantidadeDias ? (
-            <p className="text-danger">
-              Não é possivel agendar quantidade maior que dias disponivel.
-            </p>
-          ) : (
-            <ButtonSubmit type="submit" text={text} />
-          )}
-          {error && <p className="text-danger">{error}</p>}
-        </div>
-      </form>
-    </>
+      </div>
+      <FieldScheduleForm
+        field="Observação:"
+        type="text"
+        value={scheduleData.observacao}
+        onChange={(e) =>
+          setScheduleData({ ...scheduleData, observacao: e.target.value })
+        }
+      />
+      <ButtonSubmit type="submit" text={submitText} />
+    </form>
   );
 };
 
-export default ScheduleForm;
+export default FormSchedule;

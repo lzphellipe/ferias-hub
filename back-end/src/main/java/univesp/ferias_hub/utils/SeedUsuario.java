@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import univesp.ferias_hub.domain.usuario.Usuario;
 import univesp.ferias_hub.dto.usuario.UsuarioRequestDTO;
 import univesp.ferias_hub.model.usuario.ECargo;
+import univesp.ferias_hub.model.usuario.EStatus;
 import univesp.ferias_hub.repository.UserRepository;
 
 import java.time.LocalDate;
@@ -30,6 +31,7 @@ public class SeedUsuario {
                     "adm@adm.com",
                     Password.hash("Administrador@123").withBcrypt().getResult(),
                     "111.111.111.11",
+                    "19-11111-1111",
                     ECargo.Administrador,
                     LocalDate.now());
             try{
@@ -37,9 +39,13 @@ public class SeedUsuario {
                         .nome(usuarioRequestDTO.nome())
                         .email(usuarioRequestDTO.email())
                         .senha(usuarioRequestDTO.senha())
-                        .cpf(usuarioRequestDTO.cpf())
                         .cargo(usuarioRequestDTO.cargo())
+                        .cpf(usuarioRequestDTO.cpf())
+                        .telefone(usuarioRequestDTO.telefone())
                         .dataAdmissao(usuarioRequestDTO.dataAdmissao())
+                        .Status(EStatus.ATIVO)
+                        .dataCadastro(LocalDate.now().atStartOfDay())
+                        .dataAtualizacao(LocalDate.now().atStartOfDay())
                         .build();
 
                 repository.save(usuario);
