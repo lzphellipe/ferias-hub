@@ -1,11 +1,8 @@
+import React from "react";
 import styles from "./style.module.css";
-import { useAuth } from "../../hooks/useAuth";
-import { useState } from "react";
+import HistoryTableRow from "./HistoryTableRow";
 
-export default function HistoryTable() {
-  const { ferias } = useAuth().user;
-  const [dataSchedule] = useState(ferias || []);
-
+const HistoryTable = ({ dataSchedule }) => {
   return (
     <table className={styles.table}>
       <thead>
@@ -14,18 +11,16 @@ export default function HistoryTable() {
           <th>Data Fim</th>
           <th>Dias de Férias</th>
           <th>Situação</th>
+          <th>Observação</th>
         </tr>
       </thead>
       <tbody>
         {dataSchedule.map((item, i) => (
-          <tr key={i}>
-            <td>{item.dataInicio}</td>
-            <td>{item.dataFim}</td>
-            <td>{item.diasFerias}</td>
-            <td>{item.situacao}</td>
-          </tr>
+          <HistoryTableRow key={i} item={item} index={i} />
         ))}
       </tbody>
     </table>
   );
-}
+};
+
+export default HistoryTable;
