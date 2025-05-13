@@ -11,6 +11,7 @@ import java.time.LocalDate;
 public record FeriaResponseDTO(
     Integer id,
     Integer idUsuario,
+    String nomeUsuario,
     LocalDate dataInicio,
     LocalDate dataFim,
     ESituacao situacao,
@@ -20,6 +21,7 @@ public record FeriaResponseDTO(
         return new FeriaResponseDTO(
                 feria.getId(),
                 feria.getUsuario().getId(),
+                feria.getUsuario().getNome(),
                 feria.getDataInicio(),
                 feria.getDataFim(),
                 feria.getSituacao(),
