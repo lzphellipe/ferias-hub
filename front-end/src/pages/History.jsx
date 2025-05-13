@@ -8,6 +8,7 @@ import api from "../utils/api";
 const History = () => {
   const { user } = useAuth();
   const [dataSchedule, setSchedule] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const ferias = async () => {
@@ -15,7 +16,7 @@ const History = () => {
         const response = await api.get(`/ferias?idUser=${user.id}`);
         setSchedule(response.data);
       } catch (error) {
-        console.error("Erro ao buscar dados:", error);
+        setError(error.response.data.message);
       }
     };
 
@@ -26,7 +27,7 @@ const History = () => {
     <>
       <Menu />
       <Container title="Consulta de Férias">
-        <HistoryTable dataSchedule={dataSchedule} />
+        <HistoryTable dataSchedule={dataSchedule} error={error} />
       </Container>
     </>
   );

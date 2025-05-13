@@ -2,7 +2,10 @@ import React from "react";
 import styles from "./style.module.css";
 import HistoryTableRow from "./HistoryTableRow";
 
-const HistoryTable = ({ dataSchedule }) => {
+const HistoryTable = ({ dataSchedule, error }) => {
+  if (error) {
+    return <p className="text-danger">Erro: {error}</p>;
+  }
   return (
     <table className={styles.table}>
       <thead>

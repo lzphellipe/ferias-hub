@@ -1,3 +1,4 @@
+import { formatarData } from "../../utils/formatData";
 import ButtonSubmit from "../structures/forms/ButtonSubmit";
 import FieldScheduleForm from "./FieldScheduleForm";
 
@@ -7,6 +8,8 @@ const FormSchedule = ({
   onSubmit,
   submitText,
 }) => {
+  const dtFim =
+    scheduleData.dt_inicio !== "" ? formatarData(scheduleData.dt_fim) : "";
   return (
     <form onSubmit={onSubmit}>
       <div className="row">
@@ -28,7 +31,7 @@ const FormSchedule = ({
         />
         <div className="col-md-6 mb-4 mb-4 ">
           <label className="form-label fw-bold">Data de término:</label>
-          <p className="justify-content-center">{scheduleData.dt_fim}</p>
+          <p className="justify-content-center">{dtFim}</p>
         </div>
       </div>
       <FieldScheduleForm

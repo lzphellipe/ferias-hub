@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ObservationModal from "./ObservationModal";
+import { formatarData } from "../../../utils/formatData";
 
 const HistoryTableRow = ({ item, index }) => {
   const [showModal, setShowModal] = useState(false);
@@ -9,14 +10,6 @@ const HistoryTableRow = ({ item, index }) => {
 
   const qtdDiasFerias =
     new Date(item.dataFim).getTime() - new Date(item.dataInicio).getTime();
-
-  const formatarData = (data) => {
-    const dataObj = new Date(data);
-    const dia = dataObj.getDate();
-    const mes = dataObj.getMonth() + 1;
-    const ano = dataObj.getFullYear();
-    return `${dia}/${mes}/${ano}`;
-  };
 
   const dtInicio = formatarData(item.dataInicio);
   const dtFim = formatarData(item.dataFim);

@@ -7,15 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 import univesp.ferias_hub.dto.feria.FeriaRequestDTO;
 import univesp.ferias_hub.dto.feria.FeriaResponseDTO;
 import univesp.ferias_hub.dto.feria.FeriaUpdateDTO;
-import univesp.ferias_hub.dto.feria.FeriasStatusDTO;
 import univesp.ferias_hub.domain.feria.Feria;
 import univesp.ferias_hub.domain.feria.exceptions.DiasInsuficienteException;
 import univesp.ferias_hub.domain.feria.exceptions.FeriaNaoExisteException;
 import univesp.ferias_hub.domain.usuario.Usuario;
-import univesp.ferias_hub.domain.usuario.exceptions.UsuarioNaoEncontradoException;
 import univesp.ferias_hub.model.feria.ESituacao;
 import univesp.ferias_hub.repository.FeriasRepository;
-import univesp.ferias_hub.repository.UserRepository;
 import univesp.ferias_hub.utils.FeriasCalculator;
 
 import java.util.List;
@@ -32,7 +29,7 @@ public class FeriaService {
     public FeriaResponseDTO criarFeria(FeriaRequestDTO body) {
         Usuario usuario = usuarioService.buscarUsuarioPeloId(body.cod_usuario());
 
-        List<FeriaResponseDTO> ferias = consultarFeriasUsuario(usuario.getId());
+        List<FeriaResponseDTO> ferias = consultarFeriasUsuario(usuario.getId(),null);
 
         int diasDisponiveis = FeriasCalculator.calcular(usuario, ferias);
         int diasSolic = (int) DAYS.between(body.dataInicio(), body.dataFim());
@@ -48,37 +45,43 @@ public class FeriaService {
                         .observacao(body.observacao()).build();
         novaFeria = feriasRepository.save(novaFeria);
 
-        return new FeriaResponseDTO(
-                novaFeria.getId(),
-                novaFeria.getUsuario().getId(),
-                novaFeria.getDataInicio(),
-                novaFeria.getDataFim(),
-                novaFeria.getSituacao(),
-                novaFeria.getObservacao()
-        );
+        return FeriaResponseDTO.from(novaFeria);
     }
 
-    public FeriaResponseDTO consultarEspecifica(Integer id) {
-        Feria feria = consultaFeriaPeloId(id);
-
-        return new FeriaResponseDTO(
-                feria.getId(),
-                feria.getUsuario().getId(),
-                feria.getDataInicio(),
-                feria.getDataFim(),
-                feria.getSituacao(),
-                feria.getObservacao()
-        );
+    public FeriaResponseDTO consultarEspecifica(Integer id, ESituacao status) {
+        Feria feria;
+        if(status == null){
+            feria = consultaFeriaPeloId(id);
+        }else{
+            feria = feriasRepository.findByIdAndSituacao(id, status).orElseThrow(() -> new FeriaNaoExisteException("Ferias não localizada!"));
+        }
+        return FeriaResponseDTO.from(feria);
 
     }
 
-    public List<FeriaResponseDTO> consultarFeriasUsuario(Integer id) {
-        List<Feria> ferias = feriasRepository.findAllByUsuario_Id(id);
+    public List<FeriaResponseDTO> consultarFeriasUsuario(Integer id, ESituacao status) {
+        List<Feria> ferias;
+        if( status == null ){
+            ferias = feriasRepository.findAllByUsuario_Id(id);
+        }else{
+            ferias = feriasRepository.findAllByUsuario_IdAndSituacao(id, status);
+        }
 
         return ferias.stream()
                 .map(FeriaResponseDTO::from)
                 .toList();
     }
+
+    public List<FeriaResponseDTO> consultaSituacao(ESituacao status){
+        List<Feria> ferias = feriasRepository.findBySituacao(status);
+
+        return ferias.stream().map(FeriaResponseDTO::from).toList();
+    }
+
+    //public List<FeriaResponseDTO> consultaTotalFiltros(Integer id, Integer idUser, ESituacao status){
+    //    List<Feria> ferias = feriasRepository.findByIdAndUsuario_IdAndSituacao(id, idUser, status);
+    //    return ferias.stream().map(FeriaResponseDTO::from).toList();
+    //}
 
     public void alterarInfoFerias(Integer id, FeriaUpdateDTO feriaUpdateDTO) {
         Feria feriaAtual = consultaFeriaPeloId(id);
@@ -104,7 +107,7 @@ public class FeriaService {
 
     public ObjectNode statusFeria(Integer idUser){
         Usuario usuario = usuarioService.buscarUsuarioPeloId(idUser);
-        List<FeriaResponseDTO> ferias = consultarFeriasUsuario(usuario.getId());
+        List<FeriaResponseDTO> ferias = consultarFeriasUsuario(usuario.getId(),ESituacao.APROVADO);
 
         int diasRestantes = FeriasCalculator.calcular(usuario,ferias);
 
